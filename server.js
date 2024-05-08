@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const { logger } = require("./middleware/logEvents");
+const errorHandler = require("./middleware/errorHandler");
 const corsOptions = require("./config/corsOptions");
 
 //Defined variables
@@ -34,6 +35,9 @@ app.get("^/states/| /States/?", (req, res) => {
 app.get("*", (req, res) => {
 	res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
+
+// Error Logger
+app.use(errorHandler);
 
 //Express is listening
 app.listen(PORT, () => {
