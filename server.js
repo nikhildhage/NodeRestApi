@@ -1,7 +1,9 @@
 //imports
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
 const { logger } = require("./middleware/logEvents");
+const corsOptions = require("./config/corsOptions");
 
 //Defined variables
 const app = express();
@@ -16,8 +18,7 @@ app.use(express.json());
 //Custom middleware
 app.use(logger);
 
-//Cross Origin Resource sharing
-//app.use(cors);
+app.use(cors(corsOptions));
 
 // Routes
 // Default Route :/
