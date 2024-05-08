@@ -23,12 +23,11 @@ app.use(cors(corsOptions));
 
 // Routes
 // Default Route :/
-app.get("^/$|/index(.html)?", (req, res) => {
+app.get("^/$|/index(.html)?$", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname + "/views/index.html"));
 });
-
 // States routes :/states/
-app.get("^/states$/| /States$/", (req, res) => {
+app.get("^/states/$|/states(.json)?$", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, "model", "states.json"));
 });
 
