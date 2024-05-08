@@ -28,7 +28,7 @@ app.get("^/$|/index(.html)?", (req, res) => {
 });
 
 // States routes :/states/
-app.get("^/states/| /States/?", (req, res) => {
+app.get("^/states$/| /States$/", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, "model", "states.json"));
 });
 
