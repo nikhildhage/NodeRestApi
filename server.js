@@ -21,19 +21,7 @@ app.use(logger);
 
 app.use(cors(corsOptions));
 
-// Routes
-// Default Route :/
-app.get("^/$|/index(.html)?$", (req, res) => {
-	res.status(200).sendFile(path.join(__dirname + "/views/index.html"));
-});
-// States routes :/states/
-app.get("^/states/$|/states(.json)?$", (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, "model", "states.json"));
-});
-
-app.get("*", (req, res) => {
-	res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-});
+app.use("/", require("./routes/root"));
 
 // Error Logger
 app.use(errorHandler);
