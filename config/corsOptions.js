@@ -1,9 +1,5 @@
 // Cross-Origin Resource Sharing
-const whiteList = [
-	"https://www.google.com",
-	"http://127.0.0.1:5000",
-	"http://localhost:5000",
-];
+const whiteList = ["https://www.google.com", "http://localhost:5000"];
 
 const corsOptions = {
 	origin: (origin, callback) => {
@@ -14,6 +10,9 @@ const corsOptions = {
 		}
 	},
 	optionsSuccessStatus: 200,
+	methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+	allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+	credentials: true,
 };
 
-module.export = corsOptions;
+module.exports = corsOptions;
