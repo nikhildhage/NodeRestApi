@@ -23,11 +23,23 @@ app.use(cors(corsOptions));
 
 app.use("/", require("./routes/root"));
 
+// Handle 404 Page NOt Found Errors for un-defined routes
+app.all("*", (req, res) => {
+	res.status(404);
+	if (req.accepts("html")) {
+		res.sendFile(path.join(__dirname, "views", "404.html"));
+	} else if (req.accepts("json")) {
+		res.json({ error: "404 Not Found" });
+	} else {
+		res.type("txt").send("404 Not Found");
+	}
+});
+
 // Error Logger
 app.use(errorHandler);
 
 //Express is listening
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
 	console.log(`Server is listening on port ${PORT}`);
 	console.log(path.join(__dirname));
 	console.log(`${indexpath}`);
