@@ -80,9 +80,9 @@ router.get("/:state/funfact", validateState, async (req, res) => {
 router.get("/:state/capital", validateState, async (req, res) => {
 	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
-		res.json({ state: state.name, capital: state.capital });
+		res.json({ state: state.name, capital: state.capital_city });
 	} else {
-		res.status(404).json({ error: "State not found" });
+		res.status(404).json({ error: "State Capital not found" });
 	}
 });
 
@@ -91,7 +91,7 @@ router.get("/:state/nickname", validateState, async (req, res) => {
 	if (state) {
 		res.json({ state: state.name, nickname: state.nickname });
 	} else {
-		res.status(404).json({ error: "State not found" });
+		res.status(404).json({ error: "State Nickname not found" });
 	}
 });
 
@@ -100,7 +100,7 @@ router.get("/:state/population", validateState, async (req, res) => {
 	if (state) {
 		res.json({ state: state.name, population: state.population });
 	} else {
-		res.status(404).json({ error: "State not found" });
+		res.status(404).json({ error: "State Population not found" });
 	}
 });
 
@@ -109,7 +109,7 @@ router.get("/:state/admission", validateState, async (req, res) => {
 	if (state) {
 		res.json({ state: state.name, admitted: state.admission_date });
 	} else {
-		res.status(404).json({ error: "State not found" });
+		res.status(404).json({ error: "State Admission Date not found" });
 	}
 });
 
