@@ -9,7 +9,7 @@ async function mergeStateData(states) {
 	const mergedStates = await Promise.all(
 		states.map(async (state) => {
 			const funFactData = await State.findOne({
-				stateCode: state.abbreviation,
+				stateCode: state.code,
 			});
 			return {
 				...state,
@@ -30,8 +30,8 @@ router.get("/", async (req, res) => {
 			const isContig = contig === "true";
 			filteredStates = statesData.filter((state) =>
 				isContig
-					? !contiguousStates.includes(state.abbreviation)
-					: contiguousStates.includes(state.abbreviation)
+					? !contiguousStates.includes(state.code)
+					: contiguousStates.includes(state.code)
 			);
 		}
 		const states = await mergeStateData(filteredStates);
@@ -44,9 +44,7 @@ router.get("/", async (req, res) => {
 // GET specific state data with fun facts
 router.get("/:state", validateState, async (req, res) => {
 	try {
-		const stateData = statesData.find(
-			(state) => state.abbreviation === req.stateCode
-		);
+		const stateData = statesData.find((state) => state.code === req.stateCode);
 		if (stateData) {
 			const funFacts = await State.findOne({ stateCode: req.stateCode });
 			const response = {
@@ -80,7 +78,7 @@ router.get("/:state/funfact", validateState, async (req, res) => {
 
 // Additional specific attribute endpoints
 router.get("/:state/capital", validateState, async (req, res) => {
-	const state = statesData.find((s) => s.abbreviation === req.stateCode);
+	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
 		res.json({ state: state.name, capital: state.capital });
 	} else {
@@ -89,7 +87,7 @@ router.get("/:state/capital", validateState, async (req, res) => {
 });
 
 router.get("/:state/nickname", validateState, async (req, res) => {
-	const state = statesData.find((s) => s.abbreviation === req.stateCode);
+	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
 		res.json({ state: state.name, nickname: state.nickname });
 	} else {
@@ -98,7 +96,7 @@ router.get("/:state/nickname", validateState, async (req, res) => {
 });
 
 router.get("/:state/population", validateState, async (req, res) => {
-	const state = statesData.find((s) => s.abbreviation === req.stateCode);
+	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
 		res.json({ state: state.name, population: state.population });
 	} else {
@@ -107,7 +105,7 @@ router.get("/:state/population", validateState, async (req, res) => {
 });
 
 router.get("/:state/admission", validateState, async (req, res) => {
-	const state = statesData.find((s) => s.abbreviation === req.stateCode);
+	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
 		res.json({ state: state.name, admitted: state.admission_date });
 	} else {

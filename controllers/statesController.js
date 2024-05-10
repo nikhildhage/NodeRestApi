@@ -20,7 +20,7 @@ function getRandomElement(arr) {
 // Get States
 const getAllStates = async (req, res, next) => {
 	try {
-		const jsonData = await fetchJSONData("path_to_your_json_file.json");
+		const jsonData = await fetchJSONData("../model/states.json");
 		res.json(jsonData);
 	} catch (error) {
 		res.status(500).send("Error fetching JSON data");
