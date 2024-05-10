@@ -1,35 +1,43 @@
-const fs = require("fs-extra");
+const fetch = require("node-fetch");
 
 const file = "./model/states.json";
 
-async function readFile(f) {
-	const S = await fs.readJson(f, { throws: false });
-	console.log(States); // => null
-	return S;
+async function fetchJSONData(url) {
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error("Error fetching JSON:", error);
+		throw error; // Rethrow the error for the caller to handle
+	}
 }
 
-const States = readFile(file);
-
-console.log(States);
 function getRandomElement(arr) {
 	return arr[Math.floor(Math.random() * arr.length)];
 }
 
 // Get States
-const getAllStates = (req, res) => {
-	const states = States.find();
-	if (!states) {
-		return res.status(400).json({ message: "No employees found!" });
+const getAllStates = async (req, res, next) => {
+	try {
+		const jsonData = await fetchJSONData("path_to_your_json_file.json");
+		res.json(jsonData);
+	} catch (error) {
+		res.status(500).send("Error fetching JSON data");
 	}
-	res.json(states);
 };
 
 const getAllContiguousStates = (req, res, next) => {};
 const getAllNonContiguousStates = (req, res, next) => {};
-const getState = (req, res, next) => {
-	const stateCode = req.params.state;
-	const state = States.find((state) => state.code == stateCode);
-	res.json(state);
+const getState = async (req, res, next) => {
+	try {
+		const States = await fetchJSONData("../model/states.json");
+		const stateCode = req.params.state;
+		const state = States.find((state) => state.code == stateCode);
+		res.json(state);
+	} catch (error) {
+		res.status(500).send("Error fetching JSON data");
+	}
 };
 
 const getStateFunFact = (req, res) => {
