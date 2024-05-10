@@ -10,11 +10,23 @@
 	"author": "Nikhil",
 	"license": "ISC",
 	"dependencies": {
-		"cors": "^2.8.5",
+		  /**
+   * Imports and configures various dependencies for the application, including:
+   * - `cors`: Middleware for enabling CORS with various options
+   * - `date-fns`: A modern JavaScript date utility library
+   * - `dotenv`: Loads environment variables from a `.env` file
+   * - `express`: A fast and minimalist web application framework for Node.js
+   * - `fs-extra`: An enhanced file system module that adds extra functionality to the native `fs` module
+   * - `node-fetch`: A light-weight module that brings `window.fetch` to Node.js
+   * - `nodemon`: A tool that automatically restarts the Node.js application when file changes in the directory are detected
+   * - `uuid`: A library for generating unique identifiers (UUIDs)
+   */
+"cors": "^2.8.5",
 		"date-fns": "^3.6.0",
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
 		"fs-extra": "^11.2.0",
+		"node-fetch": "^2.7.0",
 		"nodemon": "^3.1.0",
 		"uuid": "^9.0.1"
 	}
