@@ -1,10 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 const { logEvents } = require("./logEvents");
 
 const errorHandler = (err, req, res, next) => {
-	logEvents(`${err.name} ${err.message}`, "errLog.txt");
+	logEvents(`${err.name}: ${err.message}`, "errLog.txt");
 	console.error(err.stack);
-	res.status(500).send(err.message);
-	next();
+	res.status(500).json({ error: "Internal Server Error" });
 };
 
 module.exports = errorHandler;
