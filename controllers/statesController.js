@@ -1,55 +1,76 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("fs-extra");
 
-const readStatesFile = () => {
-	const filePath = path.join(__dirname, "..", "model", "states.json");
+const file = "./model/states.json";
 
-	try {
-		const fileData = fs.readFileSync(filePath, "utf8");
-		const states = JSON.parse(fileData);
-		return states;
-	} catch (err) {
-		if (err.code === "ENOENT") {
-			console.error("Error: states.json file not found");
-			return [];
-		} else if (err instanceof SyntaxError) {
-			console.error("Error: Invalid JSON format in states.json file");
-			return [];
-		} else {
-			console.error("Error reading states.json file:", err);
-			return [];
-		}
+async function readFile(f) {
+	const S = await fs.readJson(f, { throws: false });
+	console.log(States); // => null
+	return S;
+}
+
+const States = readFile(file);
+
+console.log(States);
+function getRandomElement(arr) {
+	return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Get States
+const getAllStates = (req, res) => {
+	const states = States.find();
+	if (!states) {
+		return res.status(400).json({ message: "No employees found!" });
 	}
+	res.json(states);
 };
 
-const States = readStatesFile();
-//Get States methods
-const getAllStates = async (req, res) => {
-	try {
-		States = await States.find();
-		console.log(States);
-		if (States.length === 0) {
-			return res.status(404).json({ message: "No states found" });
-		}
-		res.json(States);
-	} catch (err) {
-		res.status(500).json({ message: "Internal Server Error" });
-		console.error(err);
-	}
-};
-
-const getAllContiguousStates = (req, res) => {};
-const getAllNonContiguousStates = (req, res) => {};
-const getState = (req, res) => {
+const getAllContiguousStates = (req, res, next) => {};
+const getAllNonContiguousStates = (req, res, next) => {};
+const getState = (req, res, next) => {
 	const stateCode = req.params.state;
 	const state = States.find((state) => state.code == stateCode);
 	res.json(state);
 };
 
-const getStateFunFact = (req, res) => {};
-const getStateCapital = (req, res) => {};
-const getStateNickname = (req, res) => {};
-const getStatePopulation = (req, res) => {};
+const getStateFunFact = (req, res) => {
+	const stateCode = req.params.state;
+	const state = States.find((state) => state.code == stateCode);
+	res.json(getRandomElement(state.funfacts));
+};
+
+const getStateCapital = (req, res, next) => {
+	const stateCode = req.params.state;
+	const state = States.find((state) => state.code == stateCode);
+	const statename = state.state;
+	const stateCapital = state.capital;
+	const stateData = {
+		statename: statename,
+		stateCapital: stateCapital,
+	};
+	res.json(stateData);
+};
+const getStateNickname = (req, res) => {
+	const stateCode = req.params.state;
+	const state = States.find((state) => state.code == stateCode);
+	const statename = state.state;
+	const stateNickname = state.nickname;
+	const stateData = {
+		statename: statename,
+		stateNickname: stateNickname,
+	};
+	res.json(stateData);
+};
+const getStatePopulation = (req, res) => {
+	const stateCode = req.params.state;
+	const state = States.find((state) => state.code == stateCode);
+	const statename = state.state;
+	const statePopulation = state.population;
+	const stateData = {
+		statename: statename,
+		statePopulation: statePopulation,
+	};
+	res.json(stateData);
+};
 
 const addStateFunFacts = (req, res) => {};
 const UpdateStateFunFacts = (req, res) => {};
