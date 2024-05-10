@@ -8,8 +8,7 @@ router.get("^/$|/index(.html)?$", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, "..", "/views/index.html"));
 });
 
-// States routes :/states/
-router.get("^/states/$|/states(.json)?$", (req, res) => {
+router.get("/states/", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, "..", "model", "states.json"));
 });
 
