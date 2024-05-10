@@ -69,6 +69,7 @@ router.get("/:state/funfact", validateState, async (req, res) => {
 				funFacts.funfacts[Math.floor(Math.random() * funFacts.funfacts.length)];
 			res.json({ funfact: funFact });
 		} else {
+			console.log(funFacts.funfacts);
 			res.status(404).json({ message: "No fun facts found for this state" });
 		}
 	} catch (error) {
@@ -80,7 +81,7 @@ router.get("/:state/funfact", validateState, async (req, res) => {
 router.get("/:state/capital", validateState, async (req, res) => {
 	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
-		res.json({ state: state.name, capital: state.capital });
+		res.json({ state: state.state, capital: state.capital_city });
 	} else {
 		res.status(404).json({ error: "State not found" });
 	}
@@ -89,7 +90,7 @@ router.get("/:state/capital", validateState, async (req, res) => {
 router.get("/:state/nickname", validateState, async (req, res) => {
 	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
-		res.json({ state: state.name, nickname: state.nickname });
+		res.json({ state: state.state, nickname: state.nickname });
 	} else {
 		res.status(404).json({ error: "State not found" });
 	}
@@ -98,7 +99,7 @@ router.get("/:state/nickname", validateState, async (req, res) => {
 router.get("/:state/population", validateState, async (req, res) => {
 	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
-		res.json({ state: state.name, population: state.population });
+		res.json({ state: state.state, population: state.population });
 	} else {
 		res.status(404).json({ error: "State not found" });
 	}
@@ -107,7 +108,7 @@ router.get("/:state/population", validateState, async (req, res) => {
 router.get("/:state/admission", validateState, async (req, res) => {
 	const state = statesData.find((s) => s.code === req.stateCode);
 	if (state) {
-		res.json({ state: state.name, admitted: state.admission_date });
+		res.json({ state: state.state, admitted: state.admission_date });
 	} else {
 		res.status(404).json({ error: "State not found" });
 	}
