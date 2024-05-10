@@ -8,8 +8,4 @@ router.get("^/$|/index(.html)?$", (req, res) => {
 	res.status(200).sendFile(path.join(__dirname, "..", "/views/index.html"));
 });
 
-router.get("/states/", (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, "..", "model", "states.json"));
-});
-
 module.exports = router;
