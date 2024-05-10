@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const connectDB = require("./config/dbConfig");
 
 // Custom middleware and configurations
 const { logger } = require("./middleware/logEvents");
@@ -11,14 +12,14 @@ const errorHandler = require("./middleware/errorHandler");
 const corsOptions = require("./config/corsOptions");
 
 // Connect to MongoDB
-mongoose
+/**mongoose
 	.connect(process.env.DATABASE_URI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
 	.then(() => console.log("MongoDB Connected"))
 	.catch((err) => console.log(err));
-
+**/
 // Define variables
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(logger);
+connectDB();
 
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -49,5 +51,9 @@ app.all("*", (req, res) => {
 // Global error handling
 app.use(errorHandler);
 
-// Server listening
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose.connection.once("open", () => {
+	console.log("Connected to mongoDB");
+	app.listen(PORT, () => {
+		console.log("Server is listing on port ${PORT}");
+	});
+});
