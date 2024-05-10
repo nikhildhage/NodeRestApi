@@ -46,10 +46,9 @@ router.get("/:state", validateState, async (req, res) => {
 	try {
 		const stateData = statesData.find((state) => state.code === req.stateCode);
 		if (stateData) {
-			const funFacts = await State.findOne({ stateCode: req.stateCode });
 			const response = {
 				...stateData,
-				funfacts: funFacts ? funFacts.funfacts : [],
+				funfacts: stateData ? stateData.funfacts : [],
 			};
 			res.json(response);
 		} else {
@@ -63,12 +62,15 @@ router.get("/:state", validateState, async (req, res) => {
 // GET random fun fact for a specific state
 router.get("/:state/funfact", validateState, async (req, res) => {
 	try {
-		const funFacts = await State.findOne({ stateCode: req.stateCode });
-		if (funFacts && funFacts.funfacts.length > 0) {
+		const state = statesData.find((state) => state.code === req.stateCode);
+		console.log(state.funfacts);
+		if (state.funfacts && state.funfacts.length > 0) {
 			const funFact =
-				funFacts.funfacts[Math.floor(Math.random() * funFacts.funfacts.length)];
+				state.funfacts[Math.floor(Math.random() * state.funfacts.length)];
+			//console.log(funFact);
 			res.json({ funfact: funFact });
 		} else {
+			//console.log(funFact);
 			res.status(404).json({ message: "No fun facts found for this state" });
 		}
 	} catch (error) {
